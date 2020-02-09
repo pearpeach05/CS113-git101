@@ -1,0 +1,10 @@
+pointer 
+& address operator ตัวแปรจะส่งค่าที่อยู่ของหน่วยความจำ
+* dereferencing operator เป็นค่าตำแหน่งของหน่วยความจำ
+#include <stdio.h>
+int main(){ 
+    int a = 5; 
+    int *p;    //*p คือประกาศตัวแปรเป็นประเภทพ้อยเตอ
+    p = &a;    // p = &a ให้ตัวแปรพ้อยตัว p ชี้ไปที่แอดเดรส a
+    
+}
