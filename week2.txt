@@ -1,0 +1,16 @@
+data type
+ขนาดของตัวแปรแต่ละชนิด
+    char 1 bytes
+    int 2 bytes
+    float 4 bytes
+    double 8 bytes
+    unsigned long long 8 bytes
+การรับ ค่าinput
+int คือจำนวนเต็ม
+char คืออักขระหรือตัวอักษร
+float คือ จำนวนจริง
+gets เป็นค่าstring
+fgets (ตัวแปร, ขนาด , stdin) เป็นค่าstring
+getchar (ตัวแปร) ใช้รับตัวอักษรเพียงตัวเดียว
+#include <math.h> คือการเรียกใช้ฟังชั่นคณิตศาสตร์
+#define การกำหนดค่ากับตัวแปร
