@@ -1,0 +1,3 @@
+pass by value / pass by reference
+pass by value คือการ คัดลอกค่า ที่เก็บจากตัวแปรที่ส่ง ไปยังตัวแปรของฟังก์ชั่น
+pass by reference คือ การใช้งาน ข้อมูลที่เก็บจาก address ของตัวแปรที่ส่งไป ในฟังก์ชั่นนั้น
