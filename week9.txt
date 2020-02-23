@@ -1,0 +1,127 @@
+week9
+การสร้าง/แยก Branch
+    git clone <git-url>
+    git branch feature ( เป็นการแยกส่วนการพัฒนาออกจากกัน )
+    git branch [ชื่อbranchที่จะตั้ง] ( จะมี * อยู่นำหน้าชื่อ Branch ที่กำลังทำอยู่ในปัจจุบัน master )
+    git checkout [ชื่อbranchที่จะตั้ง] 
+	git branch  (เช็คสถานะว่าเราสร้าง branch)
+
+การ Merge Branch แบบไม่มี Conflict
+1) เพิ่มไฟล์ feature1.txt ใน branch feature และเพิ่มไฟล์ master1.txt ใน branch master
+        $ git checkout feature
+    เพิ่มไฟล์ feature1.txt
+        $ git status ( เช็ค Branch ว่าอยู่ไหน )
+        $ git add [ชื่อไฟล์] 
+        $ git commit -m "[ข้อวามที่เราจะ commit ของ feature]" 
+        $ git checkout master
+    เพิ่มไฟล์ master1.txt
+        $ git status ( เช็ค Branch ว่าอยู่ไหน )
+        $ git add [ชื่อไฟล์] 
+        $ git commit -m "[ข้อวามที่เราจะ commit ของ master ]" 
+
+2) ใช้ git log adog ดู Checkpoint
+    git log --all --decorate --oneline --graph
+    จะมี 2 branches คือ master และ feature และ orgin/master ยังอยู่ที่เก่า
+
+3) push master ขึ้น github  ใช้ git log adog ดู Checkpoint ทั้งหมด สังเกตสิ่งที่เปลี่ยนแปลง
+    git checkout master
+    git log --all --decorate --oneline --graph ()
+    git push origin master
+    git log --all --decorate --oneline --graph ()
+
+4) push feature ขึ้น github  ใช้ git log adog ดู Checkpoint 
+    git checkout feature 
+	git log --all --decorate --oneline --graph ()
+	git push origin feature
+ 	git log --all --decorate --oneline --graph ()
+
+5) ลอง merge โดยให้ งานใน feature ไปรวมกันใน master
+    เปลี่ยนไปที่ Branch ปลายทางก่อน (master)
+	    git checkout master
+    รวม Branch (merge) feature ให้ไปอยู่ใน master
+	    git merge feature
+6) ใช้ git log adog แล้วจะเห็นเส้นของการรวม Branch
+	git log --all --decorate --oneline --graph
+
+7) push master 
+	git push origin master (ถ้าขึ้น github แสดงว่า merge เรียบร้อย )
+
+การ Pull แบบไม่มี Conflict
+1) ให้ clone git repository มาไว้อีกเครื่องหนึ่ง 
+    cd ..
+    git clone <git-url> git102
+	cd git102
+
+2) เพิ่มไฟล์ new-1.txt ใน directory ใหม่ (git102) แล้ว push ไปที่ github
+    git add new-1.txt
+    git commit -m "add new-1.txt by user2"
+    git push origin master
+
+3) กลับมาที่ directory เก่า แล้ว pull การเปลี่ยนแปลงลงมาที่ local repository
+    cd git101
+	ls -l ( เช็คสถานะ )
+	git pull origin master (ดึง branch master)
+	ls -l (มีไฟล์ new-1.txt)
+
+การ Merge แบบมี Conflict
+1) สร้าง Branch feature2 และสลับไป Branch 
+    git checkout -b feature2
+
+2) แก้ไฟล์ b.txt ใน branch feature2 และ master ในบรรทัดเดียวกัน
+    $ git checkout feature2
+	… แก้ไขไฟล์ 
+	$ git status ( เช็คสถานะ )
+	$ git add [b.txt] ( ไฟล์ที่จะแก้ใน feature2 )
+	$ git commit -m "[ ข้อวามที่เราจะ commit ]"
+	$ git log --all --decorate --oneline --graph 
+    $ git checkout master
+	… แก้ไขไฟล์ มีข้อความสองที่แตกต่างจากข้อความหนึ่ง
+	$ git status ( เช็คสถานะ )
+	$ git add b.txt
+	$ git commit -m "[ ข้อวามที่เราจะ commit ]"
+	$ git log --all --decorate --oneline --graph 
+
+3) merge branch feature2 เข้าไปใน branch master (ไม่ต้อง push ก็ merge ได้)
+    git checkout master
+	git merge feature2
+
+** ถ้าเปิดไฟล์ใน master จะเห็นว่า git สร้างข้อความที่อธิบาย conflict **
+    ถ้า Editor มี tool ที่ช่วยจัดการ conflict เช่น Atom สามารถเลือกว่าจะใช้ข้อมูลจาก branch ใด
+    ถ้า Editor ไม่มี tool ช่วย เช่น sublime ต้อง เพิ่ม/แก้/ลบ เอง
+
+4) หลังจากแก้ไข conflict เสร็จแล้ว ให้ commit การ merge นั้น
+    git add b.txt
+	git status
+	git commit -m "merge branch 'feature2' and resolve conflict"
+	git log --all --decorate --oneline --graph
+	git push origin master
+    git log --all --decorate --oneline --graph (push ขึ้น github)
+
+การ Pull แบบมี Conflict
+1)  ในเครื่องใหม่ หรือ directory ใหม่ ให้แก้ไขข้อมูลใน new-1.txt แล้ว commit และ push ไปที่ github
+    $ cd ..
+	$ cd git102
+	$ git pull origin master
+	…  แก้ไขไฟล์ new-1.txt ใน git102
+	$ git status
+	$ git add new-1.txt
+	$ git status
+	$ git commit -m "[ ข้อวามที่เราจะ commit ]"
+	$ git log --all --decorate --oneline --graph
+	$ git push origin master ( push ขึ้น github )
+    $ git log --all --decorate --oneline --graph 
+	$ git pull origin master
+    $ git status ( เช็คสถานะ )
+	… แก้ไข conflict ในไฟล์ new-1.txt
+	$ git add new-1.txt
+	$ git status ( เช็คสถานะ )
+	$ git commit -m "[ ข้อวามที่เราจะ commit ]"
+	$ git log --all --decorate --oneline --graph
+	$ git push origin master
+	$ git log --all --decorate --oneline --graph
+	
+2)  directory ใหม่ จะเห็นว่า Checkpoint ตามหลัง origin/master อยู่
+	cd ..
+	cd git102
+	git log --all --decorate --oneline --graph 
+	git pull origin master ( pull ลงมา สังเกตว่า ไม่เกิด conflict เพราะไม่มีการแก้ไขอะไร )
